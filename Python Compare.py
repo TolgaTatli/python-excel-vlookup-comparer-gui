@@ -67,20 +67,16 @@ class App(QWidget):
         self.compareButton.clicked.connect(self.compare)
         layout.addWidget(self.compareButton)
 
-        # Imza QLabel'i ekleme
         signatureLabel = QLabel('T.T.', self)
         signatureLabel.setStyleSheet("font-size: 10px; color: gray;")
         signatureLabel.setAlignment(Qt.AlignRight | Qt.AlignBottom)
 
-        # Daha az boşluk bırakan bir QSpacerItem ekleme
         spacer = QSpacerItem(20, 20, QSizePolicy.Expanding, QSizePolicy.Expanding)
 
-        # Layout için bir QVBoxLayout ekleyerek imza QLabel'ini sağ alt köşeye yerleştirme
         bottomLayout = QVBoxLayout()
         bottomLayout.addSpacerItem(spacer)
         bottomLayout.addWidget(signatureLabel)
 
-        # Ana layout'u güncelleme
         mainLayout = QVBoxLayout()
         mainLayout.addLayout(layout)
         mainLayout.addLayout(bottomLayout)
@@ -89,7 +85,6 @@ class App(QWidget):
 
     def toggleSameFileOption(self, state):
         if state == 2:
-            # Aynı dosyada kıyaslama yapılacaksa
             self.label2.setVisible(False)
             self.filePath2.setVisible(False)
             self.browseButton2.setVisible(False)
@@ -98,7 +93,6 @@ class App(QWidget):
             self.label5.setVisible(True)
             self.sheet2.setVisible(True)
         else:
-            # Farklı dosyalar kıyaslanacaksa
             self.label2.setVisible(True)
             self.filePath2.setVisible(True)
             self.browseButton2.setVisible(True)
@@ -157,8 +151,8 @@ class App(QWidget):
         data1 = json.loads(dataframe1.to_json(orient='records'))
         data2 = json.loads(dataframe2.to_json(orient='records'))
 
-        list1 = [str(record.get(matched_column1, '')).strip() for record in data1] 
-        list2 = [str(record.get(matched_column2, '')).strip() for record in data2]
+        list1 = [str(record.get(matched_column1, '')).strip().lower().replace(" ", "") for record in data1] 
+        list2 = [str(record.get(matched_column2, '')).strip().lower().replace(" ", "") for record in data2]
 
         set1, set2 = set(list1), set(list2)
 
